@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Acruxx Orders</title>
+    <link rel="stylesheet" href="/assets/css/semantic.min.css">
+</head>
+<body>
+    <div id="app" class="ui grid container">
+        <!-- get orders -->
+        <div class="row">
+            <div class="column">
+                <form class="ui form segment">
+                    <h1 class="ui header">Get orders from</h1>
+                    <div class="inline fields">
+                        <!-- field -->
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="order" class="hidden" value="0" v-model="ordersFrom">
+                                <label>Today</label>
+                            </div>
+                        </div>
+                        <!-- field -->
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="order" class="hidden" value="1" v-model="ordersFrom">
+                                <label>This week</label>
+                            </div>
+                        </div>
+                        <!-- field -->
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="order" class="hidden" value="2" v-model="ordersFrom">
+                                <label>All time</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /orders -->
+
+        <!-- new order -->
+        <div class="row">
+            <div class="column">
+                <form class="ui form segment">
+                    <h1 class="ui header">Add new order</h1>
+                    <!-- fields -->
+                    <div class="three fields">
+                        <div class="field">
+                            <label>User</label>
+                            <select class="ui search dropdown" ref="userAdd">
+                                <option value="">Select User</option>
+                                <option v-for="user in users" :key="user" :value="user.name">{{ user.name }}</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Product</label>
+                            <select class="ui search dropdown" ref="productAdd">
+                                <option value="">Select Product</option>
+                                <option v-for="product in products" :value="product.name">{{ product.name }}</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Price</label>
+                            <input type="number" placeholder="Ex: 10" ref="priceAdd">
+                        </div>
+                    </div>
+                    <!-- /fields -->
+
+                    <button class="ui submit button" @click.prevent="addOrder">Save</button>
+                </form>
+            </div>
+        </div>
+        <!-- /new order -->
+
+        <!-- search -->
+        <div class="row">
+            <div class="column">
+                <form class="ui form segment">
+                    <!-- search -->
+                    <div class="ui icon fluid input">
+                            <i class="search icon"></i>
+                        <input type="text" v-model="filter" placeholder="Search for names...">
+                    </div>
+                    <!-- search -->
+
+                    <!-- table -->
+                    <table class="ui celled table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Product</th>
+                                <th>Date</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(order, index) in filterOrders" :key="order">
+                                <td>{{ order.user }}</td>
+                                <td>{{ order.product }}</td>
+                                <td>{{ order.date | date }}</td>
+                                <td>{{ order.price }}</td>
+                                <td>
+                                    <div class="ui floated main menu">
+                                        <a class="icon item" href="#" @click.prevent="openModalEdit(index)">
+                                            <i class="edit icon"></i>
+                                        </a>
+                                        
+                                        <a class="icon item" href="#" @click.prevent="removeOrder(index)">
+                                            <i class="trash icon"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- /table -->
+                </form>
+            </div>
+        </div>
+        <!-- /search -->
+
+        <!-- edit -->
+        <div class="ui modal">
+            <div class="header">
+                Edit
+            </div>
+
+            <div class="content">
+                <form class="ui form">
+                    <div class="field">
+                        <label>User</label>
+                        <input type="text" placeholder="User" ref="userModal" :value="getModalKeyValue('user')">
+                    </div>
+                    <div class="field">
+                        <label>Product</label>
+                        <input type="text" name="last-name" placeholder="Product" ref="productModal" :value="getModalKeyValue('product')">
+                    </div>
+                    <div class="field">
+                        <label>Date</label>
+                        <input type="text" name="last-name" placeholder="Date" ref="dateModal" :value="getModalKeyValue('date')">
+                    </div>
+                    <div class="field">
+                        <label>Price</label>
+                        <input type="number" name="last-name" placeholder="Price" ref="priceModal" :value="getModalKeyValue('price')">
+                    </div>
+                </form>
+            </div>
+
+            <div class="actions">
+                <div class="ui black deny button">
+                    Cancel
+                </div>
+                <div class="ui positive button" @click.prevent="editOrder">
+                    Save
+                </div>
+            </div>
+        </div>
+        <!-- /edit -->
+    </div>
+
+    <script src="/assets/js/vue.min.js"></script>
+    <script src="/assets/js/moment.min.js"></script>
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="/assets/js/semantic.min.js"></script>
+    <script src="/assets/js/app.js"></script>
+</body>
+</html>
