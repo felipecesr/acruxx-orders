@@ -66,8 +66,8 @@ var app = new Vue({
                 new Date(),
                 $(this.$refs.priceAdd).val()
             );
-            this.orders.push(order);
 
+            this.orders.push(order);
             this.clearAddValues();
         },
 
@@ -90,13 +90,13 @@ var app = new Vue({
             $('.ui.modal').modal('show');
         },
 
-        clearAddValues() {
+        clearAddValues: function() {
             $(this.$refs.userAdd).dropdown('restore defaults');
             $(this.$refs.productAdd).dropdown('restore defaults');
             $(this.$refs.priceAdd).val('');
         },
 
-        getModalKeyValue(key) {
+        getModalKeyValue: function(key) {
             var index = this.modalIndex;
 
             if (index !== '') {
@@ -120,7 +120,6 @@ var app = new Vue({
 
     mounted: function() {
         $('.ui.radio.checkbox').checkbox();
-
         $('select.dropdown').dropdown();
     },
 
